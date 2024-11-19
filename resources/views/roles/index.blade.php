@@ -24,18 +24,18 @@
             <td>{{ $role->name }}</td>
             <td>
                 @php
-                $permissionsByFeature = $role->permissions->groupBy('feature.name');
+                $features = $role->permissions->groupBy('feature.name');
                 @endphp
 
-                @forelse($permissionsByFeature as $featureName => $permissions)
+                @forelse($features as $feature_name => $permissions)
 
-                <span class="text-danger">{{ $featureName ?? 'No Feature' }}:</span>
+                <span class="text-danger">{{ $feature_name ?? 'No Feature' }}:</span>
                 @foreach($permissions as $permission)
                 <span class="badge bg-info">{{ $permission->name }}</span>
                 @endforeach
                 <hr>
                 @empty
-                <span class="badge bg-secondary">No permissions assigned</span>
+                <span class="badge bg-secondary">No Permissions</span>
                 @endforelse
                 <!-- @foreach($role->permissions as $permission)
                 <span class="badge bg-info">{{ $permission->name }}</span>
