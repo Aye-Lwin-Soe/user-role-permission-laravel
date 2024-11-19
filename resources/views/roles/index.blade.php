@@ -23,9 +23,23 @@
         <tr>
             <td>{{ $role->name }}</td>
             <td>
-                @foreach($role->permissions as $permission)
+                @php
+                $permissionsByFeature = $role->permissions->groupBy('feature.name');
+                @endphp
+
+                @forelse($permissionsByFeature as $featureName => $permissions)
+
+                <span class="text-danger">{{ $featureName ?? 'No Feature' }}:</span>
+                @foreach($permissions as $permission)
                 <span class="badge bg-info">{{ $permission->name }}</span>
                 @endforeach
+                <hr>
+                @empty
+                <span class="badge bg-secondary">No permissions assigned</span>
+                @endforelse
+                <!-- @foreach($role->permissions as $permission)
+                <span class="badge bg-info">{{ $permission->name }}</span>
+                @endforeach -->
             </td>
             <td>
                 @if (\App\Helpers\PermissionHelper::userCanAccessFeature(auth()->user(), 'Role', 'Update'))
